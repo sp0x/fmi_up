@@ -74,6 +74,15 @@ void zad8(){
 	cin >> a[0]; cin >> a[1];
 	cout << "Enter the coordinates of point B";
 	cin >> b[0]; cin >> b[1];
-	
+	float dist = sqrt( pow((b[0] - a[0]),2) + pow((b[1] - a[1]),2));
+	cout << "Distance is " << dist;
 }
 
+void zad9(){
+	int myAge = 0;
+	int currentYear = 2014;
+	int compareYear;
+	cout << "Enter the year to compare with: ";  cin >> compareYear;
+	if (abs(compareYear - currentYear) > 150)
+		cout << "I'ts been 150 years, you should be dead by then :D";
+}
