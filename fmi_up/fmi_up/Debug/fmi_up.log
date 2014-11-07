@@ -1,2 +1,3 @@
 ﻿  op1.cpp
+g:\dev\c++\fmi_up\fmi_up\fmi_up\op1.cpp(17): warning C4129: 's' : unrecognized character escape sequence
   fmi_up.vcxproj -> G:\Dev\c++\fmi_up\fmi_up\Debug\fmi_up.exe
