@@ -1,4 +1,9 @@
 # Compiled Object files
+*.pdb
+*.idb
+*.tlog
+*.sdf
+*.ilk
 *.slo
 *.lo
 *.o

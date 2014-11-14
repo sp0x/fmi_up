@@ -1,0 +1,7 @@
+﻿  pch.cpp
+  App.xaml.cpp
+  MainPage.xaml.cpp
+  XamlTypeInfo.Impl.g.cpp
+  XamlTypeInfo.g.cpp
+     Creating library G:\Dev\c++\fmi_up\App1 project test\Debug\App1 project test.Windows\App1 project test.Windows.lib and object G:\Dev\c++\fmi_up\App1 project test\Debug\App1 project test.Windows\App1 project test.Windows.exp
+  App1 project test.Windows.vcxproj -> G:\Dev\c++\fmi_up\App1 project test\Debug\App1 project test.Windows\App1 project test.Windows.exe

@@ -7,7 +7,7 @@ using namespace std;
 template<class T>
 using alias = T;
 void main(){
-	cout << "Hi, FMI";
+	if(33) cout << "Hi, FMI";
 }
 class Op1{
 public:

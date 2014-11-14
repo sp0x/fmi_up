@@ -114,8 +114,28 @@ public:
 	void zad7(){
 		cout << "Number of contendors: ";
 		int nContendors; cin >> nContendors;
-
-
+		float scores[]= new float[contendors];
+		int scIxMax=-1; //0= index of min, 1= index of max
+		int scIxMin=-1;
+		for(int i=0; i<contendors; i++){
+			float pntsForContendor;
+			cout << "Score for #" << i << ": "; cin >> pntsForContendor; cout << endl;
+			if(scIxMin==-1){
+				scIxMin=i;
+			} else {
+				if(scores[scIxMin] > pntsForContendor) //Last min score is higher than this guy's score.
+					scIxMin=i;
+			}
+			if(scIxMax==-1){
+				scIxMax=i;
+			} else {
+				if(scores[scIxMax] < pntsForContendor)  //Last max score is lower than this guy's score.
+					scIxMax=i;
+			}
+			scores[i]=pntsForContendor;
+		}
+		cout << "The winner is #" << scIxMax << " with a score of " << scores[scIxMax] << endl;
+		cout << "And in last place is #" << scIxMin << " with a score of " << scores[scIxMin] << endl;
 	}
 
 	void zad8(){
@@ -126,7 +146,7 @@ public:
 		for (int i = n - 1; i>0; i--){
 			for (int j = 0; j < n; j++){
 				cout << ((j == (i + 1) || j == ((n * 2 - 1) - i)) ? c : ' ');
-				//       + + + + +    
+				//       + + + + +
 				//        +     +
 				//         +   +
 				//          + +
