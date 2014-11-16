@@ -4,7 +4,6 @@
 #include <cmath>
 #include <algorithm>
 
-
 #if (_MSC_VER >= 1600) || (_MSC_VER >= 1700)
     #if __cplusplus >= 199711L //using c11
         #include <utility>
@@ -57,11 +56,11 @@ void zad1Arrays(){
 void zad2(){
     cout << "How many friends do you have? ";
     int szFrs; cin >> szFrs;
-    int iFrAges[3];
+    int *iFrAges = (int*)calloc(szFrs, sizeof(int)); // Allocate space for friend ages
     int ixMin=-1, ixMax=-1;
-    cout << "Enter the ages of your 3 friends: ";
-    for(int i=0; i<3; cin >> iFrAges[i++]);
-    for(int i=0; i<3; i++){
+    cout << "Enter the ages of your " << szFrs <<  " friends: ";
+    for(int i=0; i< szFrs; cin >> iFrAges[i++]);
+    for(int i=0; i<szFrs; i++){
         if(iMin==-1){
             ixMin=i;
         } else {
