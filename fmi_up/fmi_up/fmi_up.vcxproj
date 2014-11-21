@@ -78,8 +78,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MatricaPica.cpp" />
+    <ClCompile Include="Matrix.h" />
     <ClCompile Include="op1.cpp" />
     <ClCompile Include="op2.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MatricaPica.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

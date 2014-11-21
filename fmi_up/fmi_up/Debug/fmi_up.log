@@ -1,3 +1,6 @@
-﻿  op1.cpp
-g:\dev\c++\fmi_up\fmi_up\fmi_up\op1.cpp(19): warning C4129: 's' : unrecognized character escape sequence
+﻿  Matrix.h
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  op1.cpp
+  MatricaPica.cpp
   fmi_up.vcxproj -> G:\Dev\c++\fmi_up\fmi_up\Debug\fmi_up.exe

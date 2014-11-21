@@ -114,10 +114,10 @@ public:
 	void zad7(){
 		cout << "Number of contendors: ";
 		int nContendors; cin >> nContendors;
-		float scores[]= new float[contendors];
+		float * scores = (float*)calloc(nContendors, sizeof(float));
 		int scIxMax=-1; //0= index of min, 1= index of max
 		int scIxMin=-1;
-		for(int i=0; i<contendors; i++){
+		for (int i = 0; i<nContendors; i++){
 			float pntsForContendor;
 			cout << "Score for #" << i << ": "; cin >> pntsForContendor; cout << endl;
 			if(scIxMin==-1){
@@ -163,7 +163,7 @@ public:
 		else{
 			for (int i = 7; i > -1; i--){
 				buff[i] = num % (int)pow(2, i) == 0;
-				num = num / pow(2, i);
+				num = num / (int)pow(2, i);
 			}
 		}
 		return buff;

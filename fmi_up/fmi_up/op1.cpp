@@ -2,19 +2,29 @@
 #include <cstdlib>
 #include <cmath>
 #include <string>
+#include "MatricaPica.h"
+
 
 using namespace std;
 template<class T>
 using alias = T;
+
+
+
 void main(){
+	int(*func_pointer) (int) = [](int a) { return ++a; };
+	int var = func_pointer(10);
+	asdoi();
 	if(33) cout << "Hi, FMI";
 }
+
+
 class Op1{
 public:
 
 	void zad2(){
 		int age = 59;
-		cout << "Hi I'm " << age << " and my name\s Gates Bill";
+		cout << "Hi I'm " << age << " and my name is Gates Bill";
 	}
 
 	void zad3(){

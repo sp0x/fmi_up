@@ -21,5 +21,16 @@
     <ClCompile Include="op2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MatricaPica.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MatricaPica.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
