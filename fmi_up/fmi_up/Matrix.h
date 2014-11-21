@@ -102,8 +102,8 @@ public:
 	Matrix operator /(float num){
 		return (*this)([num](mType& colElem) {	colElem /= num;		});
 	}
-	std::ostream operator <<(std::ostream& out){
-		this->print(out);	
+	friend std::ostream operator <<(std::ostream& out, Matrix<mtype> mx){
+		mx->print(out);	
 	}
 #pragma endregion
 
