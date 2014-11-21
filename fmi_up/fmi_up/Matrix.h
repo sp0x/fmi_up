@@ -221,7 +221,7 @@ public:
 				case DIAGONAL_SECONDARY_UPPER:
 					delimiter = '\n';
 					for (int iCol = 0; iCol < this->cols; iCol++){
-						if ( !iRow || !iCol || (iRow+iCol)==this->rows ){ //Is first row/column or on the secondary diagonal.
+						if ( !iRow || !iCol || ((iRow+iCol)==this->rows-1) ){ //Is first row/column or on the secondary diagonal.
 							out << (*this)(iRow, iCol) << "	";
 						}
 					}
