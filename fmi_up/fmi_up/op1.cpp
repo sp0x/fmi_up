@@ -6,10 +6,6 @@
 
 
 using namespace std;
-template<class T>
-using alias = T;
-
-
 
 void main(){
 	int(*func_pointer) (int) = [](int a) { return ++a; };
@@ -18,9 +14,6 @@ void main(){
 	if(33) cout << "Hi, FMI";
 }
 
-
-class Op1{
-public:
 
 	void zad2(){
 		int age = 59;
@@ -102,4 +95,3 @@ public:
 			cout << "It's been 150 years, you should be dead by then :D";
 	}
 
-};
