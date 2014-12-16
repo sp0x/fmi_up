@@ -166,32 +166,23 @@ template<typename tPredicate>
         int pos[1]={0,0};
         int walkIndexes[4]={0,0,0,0}; //used only for universal walks
 
-
         for(int iRow=0; iRow< this->rows; iRow++){
-            if(walkType == WALK_DIAGONAL_FIRST || walkType == WALK_DIAGONAL_SECOND || walkType == WALK_ALL){
-                pos={iRow, this->rows - (walkType == WALK_DIAGONAL_SECOND)*iRow };
-                action( (*this)(pos[0], pos[1]) , iRow == 0);
-
-
-
+            if(walkType == WALK_DIAGONAL_FIRST || WALK_ALL){
+                action( (*this)(iRow, iRow) , !walkIndexes[0]); walkIndexes[0]++
             }
-
+            if(walkType == WALK_DIAGONAL_SECOND || WALK_ALL){
+                action( (*this)(iRow, this->rows - iRow) , !walkIndexes[1]); walkIndexes[1]++
+            }
             if(!(walkType == WALK_DIAGONAL_FIRST || walkType == WALK_DIAGONAL_SECOND) || walkType == WALK_ALL){ //If this is a linear walker, or universal
                 for(int iCol=0; iCol < this->cols; iCol++){
-                    pos={ (walkType == WALK_LINEAR_VERTICAL)*iRow + (walkType == WALK_LINEAR_HORIZONTAL)*iCol ,
-                          (walkType == WALK_LINEAR_VERTICAL)*iCol + (walkType == WALK_LINEAR_HORIZONTAL)*iRow };
-                    if(walkType==WALK_ALL) pos={iRow,iCol};
-
-                    // for vertical, it should be the first row
-                    // for horizontal, it should be the first col
-                    action( (*this)(pos[0], pos[1]) , (WALK_LINEAR_VERTICAL && iRow == 0) || (WALK_LINEAR_HORIZONTAL && iCol == 0) ) ;
-                    if(walkType==WALK_ALL) {
-                        pos={iCol,iRow};
-                        action( (*this)(pos[0], pos[1]) , (WALK_LINEAR_VERTICAL && iRow == 0) ||  (WALK_LINEAR_HORIZONTAL && iCol == 0) ) ;
-
+                    if(walkType == WALK_LINEAR_VERTICAL || WALK_ALL){
+                        action( (*this)(iCol, iRow) , !walkIndexes[2]);
+                        walkIndexes[2]= walkIndexes[2]==this->cols ? 0 : walkIndexes[2]+1;
                     }
-
-
+                    if(walkType == WALK_LINEAR_HORIZONTAL || WALK_ALL){
+                        action( (*this)(iRow, iCol) , !walkIndexes[3]);
+                        walkIndexes[3]= walkIndexes[3]==this->rows ? 0 : walkIndexes[3]+1;
+                    }
                 }
             }
 
@@ -260,12 +251,13 @@ template<typename tPredicate>
                     tmpRowIndex = mirroredV ? this->rows - iRow : iRow;
                     tmpColIndex = mirroredH ? this->cols - iCol : iCol;
                     if (transposed){
-                        int tmppos = tmpRowIndex;
-                        tmpRowIndex = tmpColIndex;
-                        tmpColIndex = tmppos;
+                        swap(tmpRowIndex, tmpColIndex)
+                        //int tmppos = tmpRowIndex;
+                        //tmpRowIndex = tmpColIndex;
+                        //tmpColIndex = tmppos;
                     }
                     val = (*this)(tmpRowIndex, tmpColIndex);
-                    out << val << " ";
+                    out << val << "\t";
                 }
                 out << std::endl;
             }
