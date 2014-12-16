@@ -13,6 +13,14 @@
 #include <algorithm>
 #include <utility>
 
+enum WALK_TYPE {
+	WALK_DIAGONAL_FIRST=0x0, WALK_DIAGONAL_SECOND=0x1,
+	WALK_LINEAR_VERTICAL=0x10, WALK_LINEAR_HORIZONTAL=0x11,
+	WALK_ALL=0xf
+};
+
+
+
 template < typename mType >
 class Matrix{
 
@@ -29,6 +37,7 @@ public:
 #pragma region Constructors
 	Matrix(int rows, int cols);
 	Matrix(int rows, int cols, mType * buffer);
+	Matrix(int rows, int cols, bool zeroFilled);
 
 #pragma endregion
 
@@ -36,6 +45,8 @@ public:
 	~Matrix(){
 		free(buffer);
 	}
+
+
 #pragma endregion
 
 #pragma region Operators

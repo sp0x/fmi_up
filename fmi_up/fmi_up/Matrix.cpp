@@ -11,66 +11,71 @@ void Matrix::Matrix(int rows, int cols, mType * buffer){
         this->cols = cols;
         this->buffer = buffer;
     }
+void Matrix::Matrix(int rows, int cols, bool zeroFilled){
+        Matrix(rows,cols)
+        memset(this->buffer,0,rows*cols)
+    }
 
 
 #pragma region Operators
-mType * Matrix::operator()(int row, int col) const {
-        return &(&(this->buffer[row]))[col];
-    }
-mType & Matrix::operator()(int row, int col){
-        return (&(this->buffer[row]))[col];
-    }
+    mType * Matrix::operator()(int row, int col) const {
+            return &(&(this->buffer[row]))[col];
+        }
+    mType & Matrix::operator()(int row, int col){
+            return (&(this->buffer[row]))[col];
+        }
 
-template<typename Func>
-    Matrix Matrix::operator()(Func function){
-        for (int iRow = 0; iRow < this->rows; iRow++){
-            for (int iCol = 0; iCol < this->cols; iCol++){
-                function( (*this)(iRow,iCol) );
+    template<typename Func>
+        Matrix Matrix::operator()(Func function){
+            for (int iRow = 0; iRow < this->rows; iRow++){
+                for (int iCol = 0; iCol < this->cols; iCol++){
+                    function( (*this)(iRow,iCol) );
+                }
+            }
+            return Matrix(this->rows, this->cols, this->buffer);
+        }
+
+    Matrix operator Matrix::+(float num){
+            return (*this)([num](mType& colElem){   colElem += num;     });
+        }
+    Matrix operator Matrix::+(int num){
+            return (*this)([num](mType& colElem){   colElem += num;     });
+        }
+    Matrix operator Matrix::+(Matrix matB){
+            if ( rows!=matB.rows || cols!=matB.cols ){
+                std::cout << "Invalid matrix dimension combination";
+            } else {
+                Matrix out(rows, cols);
+                memcpy(out.buffer, this->buffer, sizeof(mType)*(rows*cols)); // Copy matrix A
+                int pos = 0;
+                out([&matB, pos](mType &elemFromC){
+                    int tmpRow = pos/matB.rows; //Get row offset
+                    int tmpCol = pos%matB.rows; //Get column offset
+                    elemFromC += matB(tmpRow, tmpCol);
+                    pos++;
+                });
+                return out;
             }
         }
-        return Matrix(this->rows, this->cols, this->buffer);
-    }
 
-Matrix operator Matrix::+(float num){
-        return (*this)([num](mType& colElem){   colElem += num;     });
-    }
-Matrix operator Matrix::+(int num){
-        return (*this)([num](mType& colElem){   colElem += num;     });
-    }
-Matrix operator Matrix::+(Matrix matB){
-        if ( rows!=matB.rows || cols!=matB.cols ){
-            std::cout << "Invalid matrix dimension combination";
-        } else {
-            Matrix out(rows, cols);
-            memcpy(out.buffer, this->buffer, sizeof(mType)*(rows*cols)); // Copy matrix A
-            int pos = 0;
-            out([&matB, pos](mType &elemFromC){
-                int tmpRow = pos/matB.rows; //Get row offset
-                int tmpCol = pos%matB.rows; //Get column offset
-                elemFromC += matB(tmpRow, tmpCol);
-                pos++;
-            });
-            return out;
+    Matrix operator Matrix::-(float num){
+            return (*this)([num](mType& colElem) {  colElem -= num;     });
         }
-    }
 
-Matrix operator Matrix::-(float num){
-        return (*this)([num](mType& colElem) {  colElem -= num;     });
-    }
-
-Matrix operator Matrix::*(float num){
-        return (*this)([num](mType& colElem) {  colElem *= num;     });
-    }
-Matrix operator Matrix::/(float num){
-        return (*this)([num](mType& colElem) {  colElem /= num;     });
-    }
-friend std::ostream operator Matrix::<<(std::ostream& out, Matrix<mtype> mx){
-        mx->print(out);
-    }
+    Matrix operator Matrix::*(float num){
+            return (*this)([num](mType& colElem) {  colElem *= num;     });
+        }
+    Matrix operator Matrix::/(float num){
+            return (*this)([num](mType& colElem) {  colElem /= num;     });
+        }
+    friend std::ostream operator Matrix::<<(std::ostream& out, Matrix<mtype> mx){
+            mx->print(out);
+        }
 
 #pragma endregion
 
 #pragma region Methods
+
 void Matrix::set(int iRow, int iCol, mType value){
         (&this->buffer[iRow])[iCol] = value;
     }
@@ -99,19 +104,19 @@ void Matrix::inputMatrix(){
     }
 
 bool Matrix::isDiagonal(){
-        return this->rows == this->cols;
+        return this->rows  ==  this->cols;
     }
 bool Matrix::isOnDiagonal(int dimensions, int row, int col){
-        return (row == col || ((row + col)-1) == dimensions);
+        return (row  ==  col || ((row + col)-1)  ==  dimensions);
     }
 
 bool Matrix::isNeighbour(int rowSize, int colSize, int row, int col, int rowB, int colB){
         bool valid = false;
-        if (rowSize == colSize){//Diagonal
+        if (rowSize  ==  colSize){//Diagonal
             valid = isOnDiagonal(rowSize, rowB, colB);
         }
-        bool isToTheSide = row == rowB && ( (col > 0 && colB == (col - 1)) || (col < colSize - 1 && colB == (col + 1) )  );
-        bool isAbove_or_Below = col == colB && ( (row > 0 && rowB == (row - 1)) || (row < rowSize - 1 && rowB == (row + 1)));
+        bool isToTheSide = row  ==  rowB && ( (col > 0 && colB  ==  (col - 1)) || (col < colSize - 1 && colB  ==  (col + 1) )  );
+        bool isAbove_or_Below = col  ==  colB && ( (row > 0 && rowB  ==  (row - 1)) || (row < rowSize - 1 && rowB  ==  (row + 1)));
         valid = valid || isToTheSide || isAbove_or_Below; //is to the left/right or above/below
     }
 
@@ -120,8 +125,8 @@ template<typename tPredicate>
         if (!isNeighbour(mx->rows, mx->cols, rowA, colA, rowB, colB)){
             return NULL;
         }
-        if (filter == NULL){
-            if (mx(rowA, colA) == mx(rowB, colB)){
+        if (filter  ==  NULL){
+            if (mx(rowA, colA)  ==  mx(rowB, colB)){
                 return &mx(rowB, colB);
             }
         }
@@ -150,6 +155,56 @@ template<typename tPredicate>
 
 
 
+    /**
+    - main or secondary diagonal
+    - any linear pattern
+    func - (value, fg_reset)
+    */
+    template<typename Func>
+    void Matrix::walk(char walkType, Func action , bool checkSquare){
+        if(checkSquare && !this->isDiagonal()) return;
+        int pos[1]={0,0};
+        int walkIndexes[4]={0,0,0,0}; //used only for universal walks
+
+
+        for(int iRow=0; iRow< this->rows; iRow++){
+            if(walkType == WALK_DIAGONAL_FIRST || walkType == WALK_DIAGONAL_SECOND || walkType == WALK_ALL){
+                pos={iRow, this->rows - (walkType == WALK_DIAGONAL_SECOND)*iRow };
+                action( (*this)(pos[0], pos[1]) , iRow == 0);
+
+
+
+            }
+
+            if(!(walkType == WALK_DIAGONAL_FIRST || walkType == WALK_DIAGONAL_SECOND) || walkType == WALK_ALL){ //If this is a linear walker, or universal
+                for(int iCol=0; iCol < this->cols; iCol++){
+                    pos={ (walkType == WALK_LINEAR_VERTICAL)*iRow + (walkType == WALK_LINEAR_HORIZONTAL)*iCol ,
+                          (walkType == WALK_LINEAR_VERTICAL)*iCol + (walkType == WALK_LINEAR_HORIZONTAL)*iRow };
+                    if(walkType==WALK_ALL) pos={iRow,iCol};
+
+                    // for vertical, it should be the first row
+                    // for horizontal, it should be the first col
+                    action( (*this)(pos[0], pos[1]) , (WALK_LINEAR_VERTICAL && iRow == 0) || (WALK_LINEAR_HORIZONTAL && iCol == 0) ) ;
+                    if(walkType==WALK_ALL) {
+                        pos={iCol,iRow};
+                        action( (*this)(pos[0], pos[1]) , (WALK_LINEAR_VERTICAL && iRow == 0) ||  (WALK_LINEAR_HORIZONTAL && iCol == 0) ) ;
+
+                    }
+
+
+                }
+            }
+
+        }
+
+
+    }
+
+
+
+    //game
+
+
 
 
     void Matrix::print(
@@ -169,8 +224,12 @@ template<typename tPredicate>
             }
             for (int iRow = 0; iRow < this->rows; iRow++){
                 switch (diagonalType){
-                case DIAGONAL_PRIMARY: out << (*this)(iRow,iRow) << " "; break;
-                case DIAGONAL_SECONDARY: out << (*this)(iRow, this->rows - iRow) << " "; break;
+                case DIAGONAL_PRIMARY:
+                    out << (*this)(iRow,iRow) << " "; break;
+
+                case DIAGONAL_SECONDARY:
+                    out << (*this)(iRow, this->rows - iRow) << " "; break;
+
                 case DIAGONAL_PRIMARY_LOWER:
                     delimiter = '\n';
                     for (int iCol = 0; iCol < this->cols; iCol++){
@@ -180,10 +239,11 @@ template<typename tPredicate>
                         else break;
                     }
                     break;
+
                 case DIAGONAL_SECONDARY_UPPER:
                     delimiter = '\n';
                     for (int iCol = 0; iCol < this->cols; iCol++){
-                        if ( !iRow || !iCol || ((iRow+iCol)==this->rows-1) ){ //Is first row/column or on the secondary diagonal.
+                        if ( !iRow || !iCol || ((iRow+iCol) == this->rows-1) ){ //Is first row/column or on the secondary diagonal.
                             out << (*this)(iRow, iCol) << " ";
                         }
                     }
