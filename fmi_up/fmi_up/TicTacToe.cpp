@@ -21,7 +21,7 @@ void TicTacToe::start(){
         } while(!this->field(posX, posY))         // do this while [x,y] cell isn't 0
         this->field(posX,posY)=this->crPlayer;          //mark player cell
 
-        this->field->walk(WALK_ALL, [crPlayer](value, fgReset){
+        this->field->walk(WALK_ALL, [crPlayer](int value, bool fgReset){
             hitCount = (!fgReset)*hitCount + value==crPlayer;
         });
 
